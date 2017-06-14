@@ -101,11 +101,6 @@ public class DotPollingView extends View {
         mNormalPaint.setStyle(Paint.Style.FILL);
     }
 
-    public void show() {
-        mCurrentDot = 0;
-        mDotCurrentRadiusChange = 0;
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //测量宽高
@@ -142,9 +137,7 @@ public class DotPollingView extends View {
             }
 
         }
-
         setMeasuredDimension(width,height);
-
     }
 
     @Override
