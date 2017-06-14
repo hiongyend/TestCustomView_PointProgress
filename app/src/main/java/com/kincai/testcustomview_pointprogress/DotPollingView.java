@@ -25,7 +25,7 @@ public class DotPollingView extends View {
     /**
      * 进度当前圆点画笔和正常圆点画笔
      */
-    private Paint mSelectedPaint, mNormalPaint;
+    private Paint mSelectedPaint = new Paint(), mNormalPaint = new Paint();
     /**
      * 正常圆点颜色
      */
@@ -63,6 +63,36 @@ public class DotPollingView extends View {
      */
     private int mCurrentDot = 0;
 
+    public void setColor(int mColor) {
+        this.mColor = mColor;
+        mNormalPaint.setColor(mColor);
+    }
+
+    public void setSelectedColor(int mSelectedColor) {
+        this.mSelectedColor = mSelectedColor;
+        mSelectedPaint.setColor(mSelectedColor);
+    }
+
+    public void setDotTotalCount(int mDotTotalCount) {
+        this.mDotTotalCount = mDotTotalCount;
+    }
+
+    public void setDotRadius(int mDotRadius) {
+        this.mDotRadius = mDotRadius;
+    }
+
+    public void setRadiusChangeRate(float mRadiusChangeRate) {
+        this.mRadiusChangeRate = mRadiusChangeRate;
+    }
+
+    public void setDotMaxRadius(int mDotMaxRadius) {
+        this.mDotMaxRadius = mDotMaxRadius;
+    }
+
+    public void setDotSpacing(int mDotSpacing) {
+        this.mDotSpacing = mDotSpacing;
+    }
+
     public DotPollingView(Context context) {
         this(context, null);
     }
@@ -74,15 +104,12 @@ public class DotPollingView extends View {
     public DotPollingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DotPollingView, defStyleAttr, 0);
-        init(typedArray);
+        initAttributes(typedArray);
         typedArray.recycle();
+        init();
     }
 
-    /**
-     * 初始化
-     * @param Attributes TypedArray
-     */
-    private void init(TypedArray Attributes) {
+    private void initAttributes(TypedArray Attributes) {
         mColor = Attributes.getColor(R.styleable.DotPollingView_dot_polling_color, ContextCompat.getColor(getContext(),R.color.colorPrimary));
         mSelectedColor = Attributes.getColor(R.styleable.DotPollingView_dot_polling_selected_color, ContextCompat.getColor(getContext(),R.color.colorAccent));
         mDotRadius = Attributes.getDimensionPixelSize(R.styleable.DotPollingView_dot_polling_radius,DensityUtils.dp2px(getContext(),3));
@@ -90,12 +117,15 @@ public class DotPollingView extends View {
         mDotSpacing = Attributes.getDimensionPixelSize(R.styleable.DotPollingView_dot_polling_spacing,DensityUtils.dp2px(getContext(),6));
         mDotTotalCount = Attributes.getInteger(R.styleable.DotPollingView_dot_polling_dot_count,3);
         mRadiusChangeRate = Attributes.getFloat(R.styleable.DotPollingView_dot_polling_change_rate,0.3F);
+    }
+    /**
+     * 初始化
+     */
+    private void init() {
         mDotCurrentRadiusChange = 0;
-        mSelectedPaint = new Paint();
         mSelectedPaint.setColor(mSelectedColor);
         mSelectedPaint.setAntiAlias(true);
         mSelectedPaint.setStyle(Paint.Style.FILL);
-        mNormalPaint = new Paint();
         mNormalPaint.setColor(mColor);
         mNormalPaint.setAntiAlias(true);
         mNormalPaint.setStyle(Paint.Style.FILL);
