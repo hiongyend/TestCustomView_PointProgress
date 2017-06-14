@@ -10,7 +10,7 @@ import android.util.TypedValue;
  * .
  * Time 2017-06-14 10:56
  * .
- * Desc 水平圆点进度条
+ * Desc 单位转换
  */
 
 public class DensityUtils {

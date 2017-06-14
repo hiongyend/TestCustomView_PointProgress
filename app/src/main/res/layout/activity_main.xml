@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         app:dot_polling_color="#f5b9d4"
         app:dot_polling_selected_color="#aadfcc"
-        app:dot_polling_radius="3dp"
-        app:dot_polling_max_radius="5dp"
-        app:dot_polling_spacing="7dp"
+        app:dot_polling_radius="3.5dp"
+        app:dot_polling_max_radius="5.5dp"
+        app:dot_polling_spacing="6dp"
         app:dot_polling_dot_count="3"
-        app:dot_polling_change_rate="0.4"/>
+        app:dot_polling_change_rate="0.5"/>
 
 </RelativeLayout>
