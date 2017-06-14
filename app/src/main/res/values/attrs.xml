@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DotPollingView">
+        <!--正常圆点颜色-->
+        <attr name="dot_polling_color" format="color"/>
+        <!--变大圆点颜色-->
+        <attr name="dot_polling_selected_color" format="color"/>
+        <!--圆点数量-->
+        <attr name="dot_polling_dot_count" format="integer"/>
+        <!--正常最小半径-->
+        <attr name="dot_polling_radius" format="dimension"/>
+        <!--最大半径-->
+        <attr name="dot_polling_max_radius" format="dimension"/>
+        <!--圆点最大间距-->
+        <attr name="dot_polling_spacing" format="dimension"/>
+        <!--圆点大小变化率-->
+        <attr name="dot_polling_change_rate" format="float"/>
+
+    </declare-styleable>
+</resources>

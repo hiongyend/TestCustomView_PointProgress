@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.kincai.testcustomview_pointprogress.DotPollingView
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        app:dot_polling_color="#f5b9d4"
+        app:dot_polling_selected_color="#aadfcc"
+        app:dot_polling_radius="4dp"
+        app:dot_polling_max_radius="6dp"
+        app:dot_polling_spacing="6dp"
+        app:dot_polling_dot_count="4"
+        app:dot_polling_change_rate="0.4"/>
+
+</RelativeLayout>
