@@ -2,19 +2,21 @@
 <resources>
     <declare-styleable name="DotPollingView">
         <!--正常圆点颜色-->
-        <attr name="dot_polling_color" format="color"/>
+        <attr name="dotP_dot_color" format="color"/>
         <!--变大圆点颜色-->
-        <attr name="dot_polling_selected_color" format="color"/>
+        <attr name="dotP_dot_selected_color" format="color"/>
         <!--圆点数量-->
-        <attr name="dot_polling_dot_count" format="integer"/>
+        <attr name="dotP_dot_count" format="integer"/>
         <!--正常最小半径-->
-        <attr name="dot_polling_radius" format="dimension"/>
+        <attr name="dotP_dot_radius" format="dimension"/>
         <!--最大半径-->
-        <attr name="dot_polling_max_radius" format="dimension"/>
+        <attr name="dotP_dot_max_radius" format="dimension"/>
         <!--圆点最大间距-->
-        <attr name="dot_polling_spacing" format="dimension"/>
+        <attr name="dotP_dot_spacing" format="dimension"/>
         <!--圆点大小变化率-->
-        <attr name="dot_polling_change_rate" format="float"/>
+        <attr name="dotP_dot_size_change_rate" format="float"/>
+        <!--圆点之间切换率0-1 1为变大后直接切换 不会延时-->
+        <attr name="dotP_dot_switch_rate" format="float"/>
 
     </declare-styleable>
 </resources>
