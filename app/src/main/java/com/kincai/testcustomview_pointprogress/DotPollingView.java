@@ -64,8 +64,7 @@ public class DotPollingView extends View {
     private int mCurrentDot = 0;
 
     private int mAlphaChange = 0;
-    private int mAlphaChangeTotal = 150;
-    private boolean isFirst = true;
+    private int mAlphaChangeTotal = 220;
     private final int DOT_STATUS_BIG = 0X101;
     private final int DOT_STATUS_SMALL = 0X102;
     private int mDotChangeStatus = DOT_STATUS_BIG;
@@ -185,10 +184,10 @@ public class DotPollingView extends View {
 
         if(mDotChangeStatus == DOT_STATUS_BIG) {
             mDotCurrentRadiusChange += mRadiusChangeRate;
-            mAlphaChange +=2;
+            mAlphaChange +=12;
         } else {
             mDotCurrentRadiusChange -= mRadiusChangeRate;
-            mAlphaChange -=2;
+            mAlphaChange -=12;
         }
 
         if(mAlphaChange >= mAlphaChangeTotal) {
@@ -202,25 +201,16 @@ public class DotPollingView extends View {
         int startPointY = getHeight() / 2;
         for (int i = 0; i < mDotTotalCount; i++) {
             if(mCurrentDot == i) {//当前圆点
-                mSelectedPaint.setAlpha(255- mAlphaChangeTotal + mAlphaChange);
-                //画当前变化的圆点
+                mSelectedPaint.setAlpha(255 - mAlphaChange);
                 canvas.drawCircle(startPointX + mCurrentDot * (mDotRadius * 2 + mDotSpacing), startPointY
                         , mDotRadius + mDotCurrentRadiusChange, mSelectedPaint);
                 continue;
-            } /*else if(mCurrentDot > 1 && mCurrentDot - 2 == i) {//当前圆点前两个
-                mNormalPaint.setAlpha(255 - mAlphaChangeTotal + mAlphaChange);
-                //上一个变大的圆点索引
-//                int beforeDot = mCurrentDot == 0 ? mDotTotalCount - 1 : mCurrentDot - 1;
-                //画上一个圆点，从最大mDotMaxRadius变到最小mDotRadius
+            } else if(mCurrentDot > 1 && mCurrentDot - 2 == i) {//当前圆点前两个
+                mNormalPaint.setAlpha(255 - mAlphaChange);
                 canvas.drawCircle(startPointX + (mCurrentDot - 2)
                         * (mDotRadius * 2 + mDotSpacing), startPointY, mDotRadius, mNormalPaint);
                 continue;
-            } else if(mCurrentDot == 0 && !isFirst) {//非第一次循环画圆点并且当前点是0第一个位置，那么上一个圆点即最后一个位置圆点需要变小
-                mNormalPaint.setAlpha(255 - mAlphaChangeTotal + mAlphaChange);
-                canvas.drawCircle(startPointX +  (mDotTotalCount - 1)
-                        * (mDotRadius * 2 + mDotSpacing), startPointY, mDotRadius, mNormalPaint);
-
-            }*/
+            }
 
             //画正常的圆点
             mNormalPaint.setAlpha(255);
@@ -236,7 +226,6 @@ public class DotPollingView extends View {
             mDotCurrentRadiusChange = 0f;
             mCurrentDot = mCurrentDot == mDotTotalCount - 1 ? 0 : mCurrentDot + 1;
             mAlphaChange = 0;
-            isFirst = false;
         }
 
         invalidate();
