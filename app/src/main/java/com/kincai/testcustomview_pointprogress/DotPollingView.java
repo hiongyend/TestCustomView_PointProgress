@@ -63,13 +63,12 @@ public class DotPollingView extends View {
      */
     private int mCurrentDot = 0;
 
-    /** 延时切换下一个圆点变化量0.0-1.0*/
-    private float mDelay;
-    /** 延时切换下一个圆点变化率，可控制圆点之前的切换速度*/
-    private float mDelayRate;
     private int mAlphaChange = 0;
-    private int mAlphaChangeTotal = 85;
+    private int mAlphaChangeTotal = 150;
     private boolean isFirst = true;
+    private final int DOT_STATUS_BIG = 0X101;
+    private final int DOT_STATUS_SMALL = 0X102;
+    private int mDotChangeStatus = DOT_STATUS_BIG;
 
     public void setColor(int mColor) {
         this.mColor = mColor;
@@ -125,14 +124,12 @@ public class DotPollingView extends View {
         mDotSpacing = Attributes.getDimensionPixelSize(R.styleable.DotPollingView_dotP_dot_spacing,DensityUtils.dp2px(getContext(),6));
         mDotTotalCount = Attributes.getInteger(R.styleable.DotPollingView_dotP_dot_count,3);
         mRadiusChangeRate = Attributes.getFloat(R.styleable.DotPollingView_dotP_dot_size_change_rate,0.3f);
-        mDelayRate = Attributes.getFloat(R.styleable.DotPollingView_dotP_dot_switch_rate,0.16f);
     }
     /**
      * 初始化
      */
     private void init() {
         mDotCurrentRadiusChange = 0f;
-        mDelay = 0f;
         mSelectedPaint.setColor(mSelectedColor);
         mSelectedPaint.setAntiAlias(true);
         mSelectedPaint.setStyle(Paint.Style.FILL);
@@ -185,57 +182,61 @@ public class DotPollingView extends View {
         super.onDraw(canvas);
         mNormalPaint.setAlpha(255);
         mSelectedPaint.setAlpha(255);
-        mAlphaChange +=1;
+
+        if(mDotChangeStatus == DOT_STATUS_BIG) {
+            mDotCurrentRadiusChange += mRadiusChangeRate;
+            mAlphaChange +=2;
+        } else {
+            mDotCurrentRadiusChange -= mRadiusChangeRate;
+            mAlphaChange -=2;
+        }
+
         if(mAlphaChange >= mAlphaChangeTotal) {
             mAlphaChange = mAlphaChangeTotal;
         }
-        mDotCurrentRadiusChange += mRadiusChangeRate;
         Log.e("DotPollingView", "dot current radius change: " + mDotCurrentRadiusChange);
         //第一个圆点的圆心x坐标计算：控件宽度的一半减去(所有圆点直径的和以及所有间距的和相加的总和的一半)再加上一个半径大小
         // ，为什么要加上半径？因为我们起点要的是圆心，但算出来的是最左边x坐标
         int startPointX = getWidth() / 2 - (mDotTotalCount * mDotRadius * 2 + ((mDotTotalCount - 1) * mDotSpacing)) / 2 + mDotRadius;
         //所有圆点的圆心y坐标一致控件高度的一半
         int startPointY = getHeight() / 2;
-        //先绘制所有圆点
         for (int i = 0; i < mDotTotalCount; i++) {
             if(mCurrentDot == i) {//当前圆点
-                mSelectedPaint.setAlpha(255-mAlphaChange);
-                //画当前变大的圆点
+                mSelectedPaint.setAlpha(255- mAlphaChangeTotal + mAlphaChange);
+                //画当前变化的圆点
                 canvas.drawCircle(startPointX + mCurrentDot * (mDotRadius * 2 + mDotSpacing), startPointY
                         , mDotRadius + mDotCurrentRadiusChange, mSelectedPaint);
                 continue;
-            } else if(mCurrentDot > 0 && mCurrentDot - 1 == i) {//当前圆点上一个
+            } /*else if(mCurrentDot > 1 && mCurrentDot - 2 == i) {//当前圆点前两个
                 mNormalPaint.setAlpha(255 - mAlphaChangeTotal + mAlphaChange);
                 //上一个变大的圆点索引
 //                int beforeDot = mCurrentDot == 0 ? mDotTotalCount - 1 : mCurrentDot - 1;
                 //画上一个圆点，从最大mDotMaxRadius变到最小mDotRadius
-                canvas.drawCircle(startPointX + (mCurrentDot - 1)
-                        * (mDotRadius * 2 + mDotSpacing), startPointY, mDotMaxRadius - mDotCurrentRadiusChange, mNormalPaint);
+                canvas.drawCircle(startPointX + (mCurrentDot - 2)
+                        * (mDotRadius * 2 + mDotSpacing), startPointY, mDotRadius, mNormalPaint);
                 continue;
             } else if(mCurrentDot == 0 && !isFirst) {//非第一次循环画圆点并且当前点是0第一个位置，那么上一个圆点即最后一个位置圆点需要变小
                 mNormalPaint.setAlpha(255 - mAlphaChangeTotal + mAlphaChange);
                 canvas.drawCircle(startPointX +  (mDotTotalCount - 1)
-                        * (mDotRadius * 2 + mDotSpacing), startPointY, mDotMaxRadius - mDotCurrentRadiusChange, mNormalPaint);
-            }
+                        * (mDotRadius * 2 + mDotSpacing), startPointY, mDotRadius, mNormalPaint);
+
+            }*/
+
             //画正常的圆点
             mNormalPaint.setAlpha(255);
             canvas.drawCircle(startPointX + i * (mDotRadius * 2 + mDotSpacing), startPointY, mDotRadius, mNormalPaint);
         }
 
-
         //当圆点变化率达到最大或超过最大半径和正常半径之差时 变化率重置0，当前变大圆点移至下一圆点
-        if (mDotCurrentRadiusChange >= (mDotMaxRadius - mDotRadius)) {
-            if(mDelay >= 1f) {
-                mDotCurrentRadiusChange = 0f;
-                mDelay = 0f;
-                mCurrentDot = mCurrentDot == mDotTotalCount - 1 ? 0 : mCurrentDot + 1;
-                mAlphaChange = 0;
-                isFirst = false;
-            } else {
-                mDotCurrentRadiusChange = mDotMaxRadius - mDotRadius;
-            }
-            mDelay += mDelayRate;
-
+        if (mDotCurrentRadiusChange >= (mDotMaxRadius - mDotRadius) && mDotChangeStatus == DOT_STATUS_BIG) {
+            mDotCurrentRadiusChange = mDotMaxRadius - mDotRadius;
+            mDotChangeStatus = DOT_STATUS_SMALL;
+        } else if(mDotCurrentRadiusChange <= 0 && mDotChangeStatus == DOT_STATUS_SMALL) {
+            mDotChangeStatus = DOT_STATUS_BIG;
+            mDotCurrentRadiusChange = 0f;
+            mCurrentDot = mCurrentDot == mDotTotalCount - 1 ? 0 : mCurrentDot + 1;
+            mAlphaChange = 0;
+            isFirst = false;
         }
 
         invalidate();

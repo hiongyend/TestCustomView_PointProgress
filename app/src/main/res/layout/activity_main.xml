@@ -11,12 +11,11 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         app:dotP_dot_color="@android:color/holo_blue_light"
-        app:dotP_dot_selected_color="#f5b9d4"
+        app:dotP_dot_selected_color="@android:color/holo_blue_light"
         app:dotP_dot_radius="3.5dp"
         app:dotP_dot_max_radius="5.5dp"
         app:dotP_dot_spacing="6dp"
-        app:dotP_dot_count="4"
-        app:dotP_dot_size_change_rate="0.6"
-        app:dotP_dot_switch_rate="0.16"/>
+        app:dotP_dot_count="5"
+        app:dotP_dot_size_change_rate="0.7" />
 
 </RelativeLayout>

@@ -15,8 +15,6 @@
         <attr name="dotP_dot_spacing" format="dimension"/>
         <!--圆点大小变化率-->
         <attr name="dotP_dot_size_change_rate" format="float"/>
-        <!--圆点之间切换率0-1 1为变大后直接切换 不会延时-->
-        <attr name="dotP_dot_switch_rate" format="float"/>
 
     </declare-styleable>
 </resources>
