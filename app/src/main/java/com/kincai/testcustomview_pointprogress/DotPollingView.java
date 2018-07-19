@@ -10,16 +10,16 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+
 /**
- * Copyright (C) 2015 The KINCAI Open Source Project
- * .
+ * Copyright (C) 2017 The KINCAI Open Source Project
+ *
  * Create By KINCAI
- * .
+ *
  * Time 2017-06-14 10:23
- * .
+ *
  * Desc 水平圆点进度条
  */
-
 public class DotPollingView extends View {
     private final String TAG = this.getClass().getSimpleName();
     /**
@@ -147,7 +147,7 @@ public class DotPollingView extends View {
         int width;
         int height;
 
-        if(widthMode == MeasureSpec.EXACTLY) {
+        if(widthMode == MeasureSpec.EXACTLY ) {
             width = widthSize;
             Log.e(TAG, "onMeasure MeasureSpec.EXACTLY widthSize="+widthSize);
         } else {
